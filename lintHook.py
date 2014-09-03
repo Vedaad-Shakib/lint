@@ -50,7 +50,7 @@ def lint(file):
 def absolutePaths(directory):
    for dirpath,_,filenames in os.walk(directory):
        for f in filenames:
-           if f[f.index("."):] == ".txt":
+           if f[f.index("."):] == ".java":
                yield os.path.abspath(os.path.join(dirpath, f))
            
 def main(path):
