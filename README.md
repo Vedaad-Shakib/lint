@@ -1,4 +1,6 @@
 lint
 ====
 
-Git hook to enforce the Harker Robotics team programming standards.
+This git hook serves to enforce the Harker Robotics team programming standards.
+
+
