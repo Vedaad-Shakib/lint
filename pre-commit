@@ -22,7 +22,13 @@ def lint(file):
     # gets filename from absolute path
     fileName = os.path.relpath(file.name, nameOfFolder).replace("..", nameOfFolder)
     
+    fileContents = "" # for removing trailing whitespace; will add everything but trailing whitespace into fileContents then rewrite the file at the end.
     for line in file:
+        # checks if the line has trailing whitespace and informs the user if it removes the whitespace. 
+        if line.replace("\n", "").rstrip() + "\n" != line:
+            print "Removed trailing whitespace from " + str(fileName) + "; line " + str(lineNum)
+
+        fileContents += line.replace("\n", "").rstrip() + "\n"
         if len(line.strip()) == 0: continue; # continue if there is nothing in the line
         lineNum += 1
         # strips off whitespace and checks if the bracket is on its own line.
@@ -50,6 +56,10 @@ def lint(file):
             javadocCommentActive = False
             commentNum += (lineNum - javadocCommentStart + 1)
 
+    file.seek(0)
+    file.write(fileContents)
+    file.close()
+
     if commentNum < lineNum/10: # checks if there is an adequate number of comments in the file
         print fileName + " has " + str(commentNum) + " comments. You need a minimum of " + str(lineNum / 10) + " comments to explain your work"
         errorsEncountered = True
@@ -71,7 +81,7 @@ def absolutePaths(directory):
 def main(path):
     fileGenerator = absolutePaths(path)
     for i in fileGenerator:
-        lint(open(i))
+        lint(open(i, "r+"))
         
 dirname = os.path.dirname(os.path.abspath("lint.py")) # meant to be a git hook i.e. it is in the directory .git/hooks, therefore it will check the files in ../..
 main(dirname)
