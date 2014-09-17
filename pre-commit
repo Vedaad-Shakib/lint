@@ -83,6 +83,6 @@ def main(path):
     for i in fileGenerator:
         lint(open(i, "r+"))
         
-dirname = os.path.dirname(os.path.abspath("lint.py")) # meant to be a git hook i.e. it is in the directory .git/hooks, therefore it will check the files in ../..
+dirname = os.path.dirname(os.path.abspath("pre-commit")) # meant to be a git hook i.e. it is in the directory .git/hooks, therefore it will check the files in ../..
 main(dirname)
 
